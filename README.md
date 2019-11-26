@@ -7,3 +7,5 @@ ansible-playbook -C playbook.yml -> Execute your yml with dry run and check your
 ansible-playbook -v playbook.yml -> Verbose logs ( you can increase log level with vv, vvv, vvvv)
 
 ansible-playbook playbook.yml -K -> Become password(for users which you set for become user)
+
+ignore_errors=yes -> ignore errors at tasks in yaml file
