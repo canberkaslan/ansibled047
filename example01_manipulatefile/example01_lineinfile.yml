@@ -1,0 +1,8 @@
+- hosts: 192.168.1.73
+  tasks:
+    - name: Ansible insert lineinfile example
+      lineinfile:
+        dest: /etc/resolv.conf
+        line: nameserver 8.8.4.4
+        state: present
+        create: yes

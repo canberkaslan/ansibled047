@@ -1,0 +1,7 @@
+---
+- name: DNS Example
+  hosts: 192.168.1.73
+
+  tasks:
+   - name: Ad Nameserver line
+     

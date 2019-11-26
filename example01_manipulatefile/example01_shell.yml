@@ -1,0 +1,5 @@
+- name: DNS Example
+  hosts: 192.168.1.73
+  tasks:
+    - name: Add nameserver line
+      shell: echo "nameserver 8.8.4.4" >>/etc/resolv.conf

@@ -1,0 +1,34 @@
+---
+- name: FTP Client
+  hosts: 192.168.1.73
+  
+  tasks:
+  - name: Install lftp client
+    yum:
+      name: lftp
+      state: latest
+    when: ansible_distribution == "RedHat"
+
+
+- name: FTP server
+  hosts: 192.168.1.73
+  tasks:
+    - name: Install vsftpd
+      yum:
+        name: vsftpd
+        state: latest
+      register: install_result
+    - debug: var=install_result
+    
+    - name: firewalld open port for vsftpd
+      firewalld:
+        service: ftp
+        permanent: true
+        state: enabled
+        immediate: yes
+    - name: vsftpd enabled and running
+      service:
+        name: vsftpd
+        enabled: true
+        state: started
+
