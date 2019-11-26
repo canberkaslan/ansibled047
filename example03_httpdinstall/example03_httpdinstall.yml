@@ -1,0 +1,42 @@
+---
+- name: Httpd Install
+  hosts: 192.168.1.73
+  
+  tasks:
+  - name: Install Httpd
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_distribution == "RedHat"
+  - name: Listen port 8080
+    lineinfile:
+      dest: /etc/httpd/conf/httpd.conf
+      regexp: '^Listen 80'
+      line: 'Listen 8080'
+      state: present
+      create: yes
+  - name: Copy file with owner and permissions
+    copy:
+      src: index.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: Service Start Httpd
+    service:
+      name: httpd
+      state: restarted
+  - name: firewalld open port for httpd
+    firewalld:
+      port: 8080/tcp
+      permanent: true
+      state: enabled
+      immediate: yes
+
+- name: URI Check
+  hosts: 192.168.1.73
+  tasks:
+  - name: Check that you can connect (GET) to a page and it returns a status 200
+    uri:
+      url: http://192.168.1.73:8080
