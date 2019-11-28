@@ -1,0 +1,14 @@
+- name: delegate example
+  hosts: all
+  tasks:
+    - name: remote running process
+      command: ps
+      register: remote_process
+   
+    - debug: msg="{{ remote_process.stdout }}"
+    
+    - name: local running process
+      local_action: command 'ps'
+      register: local_process
+      run_once: true
+    - debug: msg="{{ local_process.stdout }}" 

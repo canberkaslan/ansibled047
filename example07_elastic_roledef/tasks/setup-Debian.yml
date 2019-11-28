@@ -1,0 +1,5 @@
+- name: Add Elasticsearch Repository
+  apt_repository:
+    repo: 'dev https://artifacts.elastic.co/packages/{{ elasticsearch_Version }}/apt stable main'
+    state: present
+    update_cache: true

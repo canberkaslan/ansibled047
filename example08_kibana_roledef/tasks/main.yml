@@ -1,0 +1,37 @@
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Install Kibana
+  package:
+      name: kibana
+      state: "{{ kibana_package_state }}"
+
+- name: Configure Kibana
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/kibana/{{ item }}
+    owner: root
+    group: kibana
+    mode: 0660
+  with_items:
+    - kibana.yml
+    - jvm.options
+
+- name: Restart Kibana  if config has changed
+  meta: flush_handlers
+
+- name: Start Kibana
+  service:
+    name: kibana
+    state: "{{ kibana_service_state }}"
+    enabled: "{{ kibana_service_enabled }}"
+
+- name: If kibana is running
+  wait_for:
+    host: "{{ kibana_network_host }}"
+    port: "{{ kibana_network_port }}" 
+    delay: 5
+    timeout: 200

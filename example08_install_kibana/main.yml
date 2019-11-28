@@ -1,0 +1,4 @@
+- name: Kibana Search Install
+  hosts: all
+  roles: 
+     - kibana

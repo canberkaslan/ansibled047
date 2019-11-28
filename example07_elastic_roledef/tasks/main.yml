@@ -1,0 +1,37 @@
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Install Elastic
+  package:
+      name: elasticsearch
+      state: "{{ elasticsearch_package_state }}"
+
+- name: Configure Elastic
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/elasticsearch/{{ item }}
+    owner: root
+    group: elasticsearch
+    mode: 0660
+  with_items:
+    - elasticsearch.yml
+    - jvm.options
+
+- name: Restart ELastic if config has changed
+  meta: flush_handlers
+
+- name: Start Elastic
+  service:
+    name: elasticsearch
+    state: "{{ elasticsearch_service_state }}"
+    enabled: "{{ elasticsearch_service_enabled }}"
+
+- name: If elastic is running
+  wait_for:
+    host: "{{ elasticsearch_network_host }}"
+    port: "{{ elasticsearch_network_port }}" 
+    delay: 5
+    timeout: 200

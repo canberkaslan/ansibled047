@@ -1,0 +1,4 @@
+- name: Elastic Search Install
+  hosts: all
+  roles: 
+     - elastic

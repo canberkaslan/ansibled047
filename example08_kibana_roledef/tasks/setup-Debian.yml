@@ -1,0 +1,5 @@
+- name: Add Kibana Repository
+  apt_repository:
+    repo: 'dev https://artifacts.kibana.co/packages/{{ kibana_Version }}/apt stable main'
+    state: present
+    update_cache: true

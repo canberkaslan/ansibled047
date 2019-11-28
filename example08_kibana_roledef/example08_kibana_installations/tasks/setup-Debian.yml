@@ -1,0 +1,5 @@
+- name: Add Kibana Repository
+  apt_repository:
+    repo: 'deb https://artifacts.elastic.co/packages/{{ kibana_version }}/apt stable main'
+    state: present
+    update_cache: true

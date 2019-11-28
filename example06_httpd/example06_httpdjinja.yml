@@ -1,0 +1,15 @@
+- name: Copy httpd.conf to remıte
+  hosts: 192.168.1.73
+  vars: 
+    httpd:
+      ip: 192.168.1.73
+      port: 8080
+  tasks:
+    - name: Render Template
+      template:
+         src: httpd.conf.j2
+         dest: /etc/httpd/conf/httpd.conf
+    - name: Restart http
+      service:
+         name: httpd
+         state: restarted
