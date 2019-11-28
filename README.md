@@ -9,3 +9,10 @@ ansible-playbook -v playbook.yml -> Verbose logs ( you can increase log level wi
 ansible-playbook playbook.yml -K -> Become password(for users which you set for become user)
 
 ignore_errors=yes -> ignore errors at tasks in yaml file
+
+
+## Ansible Vault
+
+ansible-playbook example.yml --ask-vault-pass
+
+enter vault passwd and execute with later
